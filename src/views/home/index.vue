@@ -31,7 +31,9 @@
     </el-aside>
     <!-- 大容器 -->
     <el-container>
-      <el-header>头部内容</el-header>
+      <el-header>
+        <layoutHeader></layoutHeader>
+      </el-header>
       <el-main>
         <!-- 二级路由容器 -->
           <router-view></router-view>
@@ -40,10 +42,11 @@
   </el-container>
 </template>
 <script>
-
+import layoutHeader from '../../components/layout-header.vue'
 export default {
   name: '',
   components: {
+    layoutHeader
   }
 }
 </script>
