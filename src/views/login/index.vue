@@ -68,7 +68,9 @@ export default {
     login () {
       // this.$refs.div 获取DOM节点
       this.$refs.loginForm.validate(function (isOK) {
+        if (isOK) {
 
+        }
       })
     }
   }
