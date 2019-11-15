@@ -28,7 +28,6 @@
               </el-form-item>
           </el-form>
       </el-card>
-      <div ref="div"></div>
   </div>
 </template>
 
@@ -67,9 +66,24 @@ export default {
   methods: {
     login () {
       // this.$refs.div 获取DOM节点
-      this.$refs.loginForm.validate(function (isOK) {
+      this.$refs.loginForm.validate((isOK) => {
         if (isOK) {
+          // console.log(this.loginForm)
+          this.$axios({
+            url: '/authorizations',
+            data: this.loginForm,
+            method: 'post'
+          }).then(result => {
+            // 存储到本地
 
+            window.localStorage.setItem('user-token', result.data.data.token)
+            this.$router.push('/home')
+          }).catch(() => {
+            this.$message({
+              message: '警告哦，你输入有误',
+              type: 'warning'
+            })
+          })
         }
       })
     }
