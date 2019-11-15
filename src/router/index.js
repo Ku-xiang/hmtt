@@ -6,11 +6,10 @@ Vue.use(VueRouter)
 
 const routes = [{
   path: '/',
-  redirect: '/home'
+  redirect: 'home'
 }, // 一级路由
 {
   path: '/home',
-  name: 'home',
   component: Home
 }, // 一级路由
 {

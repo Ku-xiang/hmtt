@@ -7,7 +7,7 @@
           </div>
           <!-- 表单 -->
           <!-- model 属性绑定表单数据对象 rules表示绑定的校验规则对象-->
-          <el-form style="margin-top:30px" :model="loginForm" :rules="loginRules">
+          <el-form ref="loginForm" style="margin-top:30px" :model="loginForm" :rules="loginRules">
               <!-- 一个表单域就是一个form-item -->
               <el-form-item prop="mobile">
                   <!-- 放置表单组件 -->
@@ -24,10 +24,11 @@
                   <el-checkbox v-model="loginForm.checked">我已阅读并同意用户协议及隐私条款</el-checkbox>
               </el-form-item>
               <el-form-item>
-                  <el-button type="primary" style="width:100%" >立即登录</el-button>
+                  <el-button type="primary" style="width:100%" @click='login'>立即登录</el-button>
               </el-form-item>
           </el-form>
       </el-card>
+      <div ref="div"></div>
   </div>
 </template>
 
@@ -61,6 +62,14 @@ export default {
           }
         } }]
       }
+    }
+  },
+  methods: {
+    login () {
+      // this.$refs.div 获取DOM节点
+      this.$refs.loginForm.validate(function (isOK) {
+
+      })
     }
   }
 }
