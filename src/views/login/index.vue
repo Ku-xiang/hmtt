@@ -77,7 +77,7 @@ export default {
             // 存储到本地
 
             window.localStorage.setItem('user-token', result.data.data.token)
-            this.$router.push('/home')
+            this.$router.push('/layout')
           }).catch(() => {
             this.$message({
               message: '警告哦，你输入有误',
