@@ -5,6 +5,7 @@ import Login from '../views/login'
 import Home from '@/views/home'
 import Article from '@/views/article'
 import Publish from '@/views/publish'
+import NProgress from 'nprogress'
 Vue.use(VueRouter)
 
 const routes = [
@@ -49,6 +50,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // 开启导航进度条
+  NProgress.start()
   // 判断是否有 token
   if (to.path === '/login') {
     next()
@@ -62,5 +65,8 @@ router.beforeEach((to, from, next) => {
     next('/login')
   }
 })
-
+// 路有导航结束以后触发
+router.afterEach((to, from) => {
+  NProgress.done()
+})
 export default router
