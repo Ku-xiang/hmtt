@@ -63,6 +63,8 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     next('/login')
+    // 如果在登录页  并且是非登录状态下的登录页面  手动终止进度条
+    NProgress.done()
   }
 })
 // 路有导航结束以后触发
