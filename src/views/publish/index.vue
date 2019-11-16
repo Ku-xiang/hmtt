@@ -1,12 +1,10 @@
 <template>
-  <div class="home">首页</div>
+  <div class="article">发布文章</div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {}
-  }
+
 }
 </script>
 

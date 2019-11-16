@@ -1,21 +1,37 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/home'
+import layout from '../views/layout'
 import Login from '../views/login'
+import Home from '@/views/home'
+import Article from '@/views/article'
+import Publish from '@/views/publish'
 Vue.use(VueRouter)
 
-const routes = [{
-  path: '/',
-  redirect: 'home'
-}, // 一级路由
-{
-  path: '/home',
-  component: Home
-}, // 一级路由
-{
-  path: '/login',
-  component: Login
-}
+const routes = [
+//   path: '/',
+//   redirect: 'home'
+// }, // 一级路由
+  {
+    path: '/',
+    component: layout,
+    children: [{
+      // 首页
+      path: '', // 默认子路由，
+      component: Home
+    }, {
+      // 文章列表
+      path: '/article',
+      component: Article
+    }, {
+      // 发布文章
+      path: '/publish',
+      component: Publish
+    }]
+  }, // 一级路由
+  {
+    path: '/login',
+    component: Login
+  }
   // {
   //   path: '/about',
   //   name: 'about',

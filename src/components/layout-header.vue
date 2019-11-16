@@ -10,7 +10,7 @@
       <!-- 右侧 -->
       <el-col :span="3" class="right">
           <!-- 头像 -->
-          <img src="../assets/avatar.jpg" alt="">
+          <img src="../assets/微信图片_20190806213013.jpg" alt="">
           <!-- 下拉菜单 -->
           <el-dropdown trigger="click">
               <span >A.枯巷</span>
@@ -43,6 +43,7 @@ export default {
         display: flex;
         align-items: center;
         img {
+            height: 50px;
             border-radius: 50%;
             margin-right: 10px;
         }
