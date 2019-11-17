@@ -12,6 +12,11 @@ const obj = JSONbig.parse(data)
 console.log(obj.data.results[0].id.toString()) // 1195985083270430720
 
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/' // 设置axios常态地址
+axios.defaults.transformResponse = [function (data, headers) {
+  console.log('后端原始数据', data)
+  // asios默认使用 JSON。parse（data）
+  return JSONbig.parse(data)
+}]
 Vue.prototype.$axios = axios // 将axios共享给所有的实例使用
 Vue.config.productionTip = false
 Vue.use(Element) // 注册整个的所有ElementUI组件 Vue.use 调用了element里面的一个方法=>install
