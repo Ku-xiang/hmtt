@@ -40,7 +40,8 @@
       type="daterange"
       range-separator="至"
       start-placeholder="开始日期"
-      end-placeholder="结束日期">
+      end-placeholder="结束日期"
+      value-format="yyyy-MM-dd">
     </el-date-picker>
 
   </el-form-item>
@@ -120,11 +121,11 @@ export default {
     return {
       fileForm: {
         status: null,
-        channel_id: null,
-        begin_pubdate: '',
-        end_pubdate: ''
+        channel_id: null
+        // begin_pubdate: '',
+        // end_pubdate: ''
       },
-      rangeDate: '',
+      rangeDate: [], // 日期范围
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -184,11 +185,11 @@ export default {
         params: {
           page,
           per_page: 10,
-          // axios 有个功能  当参数值为null的 时候 不传递
+          // axios 有个功能  当参数值为 null undefined 的 时候 不传递
           status: this.fileForm.status, // 文章状态
-          channel_id: this.fileForm.channel_id // 频道id
-          // begin_pubdate, // 开始时间
-          // end_pubdate// 结束时间
+          channel_id: this.fileForm.channel_id, // 频道id
+          begin_pubdate: this.rangeDate ? this.rangeDate[0] : null, // 开始时间
+          end_pubdate: this.rangeDate ? this.rangeDate[1] : null// 结束时间
         }
       }).then(res => {
         // 更新文章列表
