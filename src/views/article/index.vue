@@ -46,7 +46,8 @@
     </div>
     <el-table
       :data="articles"
-      style="width: 100%">
+      style="width: 100%"
+      v-loading='loading'>
       <el-table-column
         prop="date"
         label="封面"
@@ -146,7 +147,8 @@ export default {
           label: '已删除'
         }
       ],
-      totalCount: 0
+      totalCount: 0,
+      loading: true
     }
   },
   created () {
@@ -154,6 +156,7 @@ export default {
   },
   methods: {
     loadArticles (page = 1) {
+      this.loading = true
       const token = window.localStorage.getItem('user-token')
       this.$axios({
         method: 'GET',
@@ -173,6 +176,8 @@ export default {
         this.totalCount = res.data.data.total_count
       }).catch(err => {
         console.log(err, '获取数据失败')
+      }).finally(() => {
+        this.loading = false
       })
     },
     onSubmit () {
