@@ -45,29 +45,43 @@
       <span>共找到29860条符合条件的内容</span>
     </div>
     <el-table
-      :data="tableData"
+      :data="articles"
       style="width: 100%">
       <el-table-column
         prop="date"
         label="封面"
         width="180">
+        <!-- 自定义表格列 -->
+        <template slot-scope="scope">
+          <img width="50" :src="scope.row.cover .images[0]" alt="">
+        </template>
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="title"
         label="标题"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="status"
         label="发布状态">
+        <template slot-scope="scope">
+        <!-- <span>{{ articleStatus[scope.row.status].label }}</span> -->
+          <el-tag
+          :type='articleStatus[scope.row.status].type'
+          >{{ articleStatus[scope.row.status].label }}</el-tag>
+        </template>
       </el-table-column>
        <el-table-column
-        prop="address"
+        prop="pubdate"
         label="发布日期">
       </el-table-column>
        <el-table-column
         prop="address"
         label="操作">
+        <template>
+          <el-button type="danger" size="mini">删除</el-button>
+          <el-button type="primary" size="mini">编辑</el-button>
+        </template>
       </el-table-column>
     </el-table>
   </el-card>
@@ -77,6 +91,7 @@
 
 <script>
 export default {
+  name: 'Article',
   data () {
     return {
       fileForm: {
@@ -102,28 +117,51 @@ export default {
         date: '2016-05-03',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
-      }]
-    }
-  },
-  methods: {
-    onSubmit () {
-      console.log('submit!')
+      }],
+      articles: [],
+      articleStatus: [
+        {
+          type: 'success',
+          label: '草稿'
+        }, {
+          type: 'info',
+          label: '待审核'
+        }, {
+          type: '',
+          label: '审核通过'
+        }, {
+          type: 'warning',
+          label: '审核失败'
+        }, {
+          type: 'danger',
+          label: '已删除'
+        }
+      ]
     }
   },
   created () {
-    const token = window.localStorage.getItem('user-token')
-    this.$axios({
-      method: 'GET',
-      url: '/articles',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.log(err, '获取数据失败')
-    })
+    this.loadArticles()
+  },
+  methods: {
+    loadArticles () {
+      const token = window.localStorage.getItem('user-token')
+      this.$axios({
+        method: 'GET',
+        url: '/articles',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(res => {
+        this.articles = res.data.data.results
+      }).catch(err => {
+        console.log(err, '获取数据失败')
+      })
+    },
+    onSubmit () {
+
+    }
   }
+
 }
 </script>
 
