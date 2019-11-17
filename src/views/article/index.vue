@@ -25,6 +25,7 @@
       下拉列表会把选中的 option 的 value 同步到数据中
      -->
     <el-select placeholder="请选择" v-model="fileForm.channel_id">
+      <el-option label="所有频道" :value="null"></el-option>
       <el-option
       :label="channel.name"
       :value="channel.id"
@@ -119,7 +120,7 @@ export default {
     return {
       fileForm: {
         status: null,
-        channel_id: '',
+        channel_id: null,
         begin_pubdate: '',
         end_pubdate: ''
       },
@@ -184,8 +185,8 @@ export default {
           page,
           per_page: 10,
           // axios 有个功能  当参数值为null的 时候 不传递
-          status: this.fileForm.status // 文章状态
-          // channel_id, // 频道id
+          status: this.fileForm.status, // 文章状态
+          channel_id: this.fileForm.channel_id // 频道id
           // begin_pubdate, // 开始时间
           // end_pubdate// 结束时间
         }
