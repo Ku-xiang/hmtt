@@ -109,6 +109,20 @@ export default {
     onSubmit () {
       console.log('submit!')
     }
+  },
+  created () {
+    const token = window.localStorage.getItem('user-token')
+    this.$axios({
+      method: 'GET',
+      url: '/articles',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err, '获取数据失败')
+    })
   }
 }
 </script>
