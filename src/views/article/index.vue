@@ -94,8 +94,8 @@
        <el-table-column
         prop="address"
         label="操作">
-        <template>
-          <el-button type="danger" size="mini">删除</el-button>
+        <template slot-scope="scope">
+          <el-button type="danger" size="mini" @click="onDelete(scope.row.id)">删除</el-button>
           <el-button type="primary" size="mini">编辑</el-button>
         </template>
       </el-table-column>
@@ -214,6 +214,19 @@ export default {
         this.channels = res.data.data.channels
       }).catch(err => {
         console.log(err, '获取数据失败')
+      })
+    },
+    onDelete (articleId) {
+      this.$axios({
+        method: 'DELETE',
+        url: `/articles/${articleId}`,
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('user-token')}`
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err, '删除失败')
       })
     }
   }
