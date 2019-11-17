@@ -164,7 +164,8 @@ export default {
       ],
       totalCount: 0, // 总记录数
       loading: true, // 表格的 loading 状态
-      channels: []// 频道
+      channels: [], // 频道
+      page: 1
     }
   },
   created () {
@@ -204,6 +205,7 @@ export default {
     },
 
     onPageChange (page) {
+      this.page = page
       this.loadArticles(page)
     },
     loadChannels () {
@@ -225,7 +227,7 @@ export default {
         }
       }).then(res => {
         // 删除成功，重新加载当前文章列表
-        this.loadArticles(1)
+        this.loadArticles(this.page)
       }).catch(err => {
         console.log(err, '删除失败')
       })
