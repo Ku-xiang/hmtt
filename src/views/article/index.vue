@@ -42,7 +42,7 @@
 <!-- 文章列表 -->
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <span>共找到29860条符合条件的内容</span>
+      <span>共找到{{totalCount}}条符合条件的内容</span>
     </div>
     <el-table
       :data="articles"
@@ -86,6 +86,15 @@
     </el-table>
   </el-card>
 <!-- /文章列表 -->
+
+<!-- 分页 -->
+<!-- layout 控制布局 -->
+<el-pagination
+  background
+  layout="prev, pager, next"
+  :total="totalCount"
+  @current-change="onPageChange">
+</el-pagination>
   </div>
 </template>
 
@@ -136,31 +145,42 @@ export default {
           type: 'danger',
           label: '已删除'
         }
-      ]
+      ],
+      totalCount: 0
     }
   },
   created () {
-    this.loadArticles()
+    this.loadArticles(1)
   },
   methods: {
-    loadArticles () {
+    loadArticles (page = 1) {
       const token = window.localStorage.getItem('user-token')
       this.$axios({
         method: 'GET',
         url: '/articles',
         headers: {
           Authorization: `Bearer ${token}`
+        },
+        // query 参数使用 params 传递
+        params: {
+          page,
+          per_page: 10
         }
       }).then(res => {
+        // 更新文章列表
         this.articles = res.data.data.results
+        // 更新总记录数
+        this.totalCount = res.data.data.total_count
       }).catch(err => {
         console.log(err, '获取数据失败')
       })
     },
     onSubmit () {
 
-    }
-  }
+    },
+    onPageChange (page) {
+      this.loadArticles(page)
+    } }
 
 }
 </script>
