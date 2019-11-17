@@ -21,9 +21,16 @@
     </el-radio-group>
   </el-form-item>
   <el-form-item label="频道列表">
+    <!--
+      下拉列表会把选中的 option 的 value 同步到数据中
+     -->
     <el-select placeholder="请选择" v-model="fileForm.channel_id">
-      <el-option label="区域一" value="shanghai"></el-option>
-      <el-option label="区域二" value="beijing"></el-option>
+      <el-option
+      :label="channel.name"
+      :value="channel.id"
+      v-for="channel in channels"
+      :key='channel.id'
+      ></el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="时间选择">
@@ -153,12 +160,14 @@ export default {
           label: '已删除'
         }
       ],
-      totalCount: 0,
-      loading: true
+      totalCount: 0, // 总记录数
+      loading: true, // 表格的 loading 状态
+      channels: []// 频道
     }
   },
   created () {
     this.loadArticles(1)
+    this.loadChannels()
   },
   methods: {
     loadArticles (page = 1) {
@@ -194,7 +203,18 @@ export default {
 
     onPageChange (page) {
       this.loadArticles(page)
-    } }
+    },
+    loadChannels () {
+      this.$axios({
+        method: 'GET',
+        url: '/channels'
+      }).then(res => {
+        this.channels = res.data.data.channels
+      }).catch(err => {
+        console.log(err, '获取数据失败')
+      })
+    }
+  }
 
 }
 </script>
