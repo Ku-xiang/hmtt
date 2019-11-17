@@ -224,7 +224,8 @@ export default {
           Authorization: `Bearer ${window.localStorage.getItem('user-token')}`
         }
       }).then(res => {
-        console.log(res)
+        // 删除成功，重新加载当前文章列表
+        this.loadArticles(1)
       }).catch(err => {
         console.log(err, '删除失败')
       })
