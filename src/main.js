@@ -22,6 +22,33 @@ axios.defaults.transformResponse = [function (data, headers) {
     return {}
   }
 }]
+
+// axios 请求拦截器
+axios.interceptors.request.use(function (config) {
+  // 在请求拦截器函数中的 config 是本次请求相关的配置对象
+  // config 就是最后要发给后端的配置的对象
+  // 我们可以在拦截器中对 config 进行统一配置订制
+  const token = window.localStorage.getItem('user-token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error)
+})
+
+// aaxios 响应
+axios.interceptors.response.use(function (response) {
+  // Any status code that lie within the range of 2xx cause this function to trigger
+  // Do something with response data
+  return response
+}, function (error) {
+  // Any status codes that falls outside the range of 2xx cause this function to trigger
+  // Do something with response error
+  return Promise.reject(error)
+})
+
 Vue.prototype.$axios = axios // 将axios共享给所有的实例使用
 Vue.config.productionTip = false
 Vue.use(Element) // 注册整个的所有ElementUI组件 Vue.use 调用了element里面的一个方法=>install
