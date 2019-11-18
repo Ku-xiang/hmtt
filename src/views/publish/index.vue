@@ -8,8 +8,13 @@
   <el-form-item label="标题">
     <el-input v-model="article.title"></el-input>
   </el-form-item>
-   <el-form-item label="活动形式">
-    <el-input type="textarea" v-model="article.content"></el-input>
+   <el-form-item label="内容">
+     <!-- bidirectional data binding（双向数据绑定） -->
+  <quill-editor v-model="article.content"
+                ref="myQuillEditor"
+                :options="{editorOption}"
+               >
+  </quill-editor>
   </el-form-item>
   <el-form-item label="频道">
    <el-select placeholder="请选择频道" v-model="article.channel_id">
@@ -37,8 +42,18 @@
 </template>
 
 <script>
+// 加载富文本编辑器
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+// 核心组件
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
+  components: {
+    // 注册局部组件
+    quillEditor
+  },
   name: 'publish',
   data () {
     return {
@@ -51,7 +66,8 @@ export default {
         },
         channel_id: ''
       },
-      channels: []
+      channels: [],
+      editorOption: {} // 富文本编辑器的配置
     }
   },
   created () {
