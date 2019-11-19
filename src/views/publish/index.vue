@@ -80,9 +80,22 @@ export default {
   },
   created () {
     // this.loadChannels()
+
+    // 添加和编辑使用的都是这个组件
+    // 只有编辑才需要在初始化的时候,根据id获取加载内容
+    if (this.$route.params.articleId) {
+      this.loadArticle()
+    }
   },
   methods: {
     onSubmit (draft) {
+      if (this.$route.params.articleId) {
+        this.updateArticle()
+      } else {
+        this.addArticle()
+      }
+    },
+    addArticle (draft) {
       this.$axios({
         method: 'POST',
         url: '/articles',
@@ -99,6 +112,31 @@ export default {
         console.log(res)
       }).catch(err => {
         console.log(err)
+      })
+    },
+    updateArticle (draft) {
+      this.$axios({
+        method: 'PUT',
+        url: `/articles/${this.$route.params.articleId}`,
+        params: {
+          draft
+        },
+        data: this.article
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: '更新成功'
+        }).catch(err => {
+          this.$message.error(err, '更新失败')
+        })
+      })
+    },
+    loadArticle () {
+      this.$axios({
+        method: 'GET',
+        url: `/articles/${this.$route.params.articleId}`
+      }).then(res => {
+        this.article = res.data.data
       })
     }
     // loadChannels () {
