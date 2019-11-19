@@ -6,6 +6,7 @@ import Home from '@/views/home'
 import Article from '@/views/article'
 import Publish from '@/views/publish'
 import NProgress from 'nprogress'
+import Comment from '../views/comment'
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,6 +33,9 @@ const routes = [
       // 编辑文章
       path: '/publish/:articleId',
       component: Publish
+    }, {
+      path: '/comment',
+      component: Comment
     }]
   }, // 一级路由
   {
