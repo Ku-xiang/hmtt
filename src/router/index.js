@@ -29,9 +29,7 @@ const routes = [
       path: '/publish',
       component: Publish
     }, {
-      path: '/publish',
-      component: Publish
-    }, {
+      // 编辑文章
       path: '/publish/:articleId',
       component: Publish
     }]

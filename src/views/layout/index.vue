@@ -39,7 +39,10 @@
       </el-header>
       <el-main>
         <!-- 二级路由容器 -->
-          <router-view></router-view>
+        <!-- 只要在 router-view 上增加一个 key 就可以禁用路由缓存功能
+          绑定的 key 唯一即可
+         -->
+          <router-view :key="$route.path"></router-view>
       </el-main>
     </el-container>
   </el-container>
