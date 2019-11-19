@@ -8,7 +8,7 @@
   <el-form-item label="标题">
     <el-input v-model="article.title"></el-input>
   </el-form-item>
-   <el-form-item label="内容">
+   <el-form-item label="内容" >
      <!-- bidirectional data binding（双向数据绑定） -->
   <quill-editor v-model="article.content"
                 ref="myQuillEditor"
@@ -17,14 +17,19 @@
   </quill-editor>
   </el-form-item>
   <el-form-item label="频道">
-   <el-select placeholder="请选择频道" v-model="article.channel_id">
+   <!-- <el-select placeholder="请选择频道" v-model="article.channel_id">
       <el-option
       :label="channel.name"
       :value="channel.id"
       v-for="channel in channels"
       :key='channel.id'
       ></el-option>
-    </el-select>
+    </el-select> -->
+
+<!-- 我们自己封装的下拉列表
+    下拉列表的选中状态受绑定数据的影响
+ -->
+    <channel-select v-model="article.channel_id"></channel-select>
   </el-form-item>
   <!-- <el-form-item label="封面"> -->
     <!-- <el-radio-group v-model="form.resource">
@@ -49,10 +54,13 @@ import 'quill/dist/quill.bubble.css'
 // 核心组件
 import { quillEditor } from 'vue-quill-editor'
 
+import ChannelSelect from '../../components/chnnel-select'
+
 export default {
   components: {
     // 注册局部组件
-    quillEditor
+    quillEditor,
+    ChannelSelect
   },
   name: 'publish',
   data () {
@@ -66,12 +74,12 @@ export default {
         },
         channel_id: ''
       },
-      channels: [],
+      // channels: [],
       editorOption: {} // 富文本编辑器的配置
     }
   },
   created () {
-    this.loadChannels()
+    // this.loadChannels()
   },
   methods: {
     onSubmit (draft) {
@@ -92,17 +100,17 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    },
-    loadChannels () {
-      this.$axios({
-        method: 'GET',
-        url: '/channels'
-      }).then(res => {
-        this.channels = res.data.data.channels
-      }).catch(err => {
-        console.log(err, '获取数据失败')
-      })
     }
+    // loadChannels () {
+    //   this.$axios({
+    //     method: 'GET',
+    //     url: '/channels'
+    //   }).then(res => {
+    //     this.channels = res.data.data.channels
+    //   }).catch(err => {
+    //     console.log(err, '获取数据失败')
+    //   })
+    // }
   }
 
 }
@@ -110,5 +118,7 @@ export default {
 </script>
 
 <style>
-
+.ql-container{
+  height: 250px;
+}
 </style>
